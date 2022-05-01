@@ -21,36 +21,53 @@
     </head>
 
     <body>
+    
         <div class="wrapper">
+        <x-app-layout>
             <div class="sidebar">
+           
                 <div class="sidebar-text d-flex flex-column h-100 justify-content-center text-center">
                     <!-- <img class="mx-auto d-block w-75 bg-primary img-fluid rounded-circle mb-4 p-3" src="img/profile.jpg" alt="Image"> -->
                     <h1 class="font-weight-bold">FindBestReview</h1>
                     <!-- navbar start -->
                     <nav class="nav flex-column">
+                    
+                        @guest
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                         <a class="nav-link" href="/reviews">Reviews</a>
-                        <a class="nav-link" href="/registration">User Registration</a>
-                        <div class="nav-item dropdown">
-                            <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Login</a>
-                            <div class="dropdown-menu">
-                                <a href="blog.html" class="dropdown-item">User</a>
-                                <a href="single.html" class="dropdown-item">Admin</a>
-                            </div>
-                        </div>
+                        <a class="nav-link" href="/register">Registration</a>
+                        <a class="nav-link" href="/login">Login</a>
+                        @endguest
+                        @auth
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                        <a class="nav-link" href="/reviews">Reviews</a>
+                        <a class="nav-link" href="/user/create">Create Post</a>
+                        <a class="nav-link"href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    {{ __('Profile') }}</a>
+                    <form method="POST" action="{{ route('logout') }}" x-data>
+                    @csrf
+
+                    <a class="nav-link" href="{{ route('logout') }}"
+                                   @click.prevent="$root.submit();">
+                        {{ __('Log Out') }}
+                    </a>
+                    </form>
+                        @endauth
+                       
                       </nav>
                       <!--navbar end  -->    
                 </div>
                 <div class="sidebar-icon d-flex flex-column h-100 justify-content-center text-right">
                     <i class="fas fa-2x fa-angle-double-right text-primary"></i>
                 </div>
+                
             </div>
             <div class="content">
               <!-- Search form -->
                     @yield('searchbox')
                 
                 <!-- Blog List Start -->
-                @yield('blogs')
+                @yield('main')
 
                 <!-- single blog -->
                 @yield('single')
@@ -63,8 +80,9 @@
                 </div>
                 <!-- Footer End -->
             </div>
+            </x-app-layout>
         </div>
-        
+       
         <!-- Back to Top -->
         <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
         
@@ -81,4 +99,5 @@
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
     </body>
+
 </html>

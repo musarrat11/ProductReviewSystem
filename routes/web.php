@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +24,40 @@ use Illuminate\Support\Facades\Route;
 
 
 //welcome page-->vc
-Route::get('/',[WelcomeController::class,'index']);
+Route::any('/',[WelcomeController::class,'index']);
 
 //Allreviews---->vc
 Route::get('/reviews',[ReviewController::class,'AllReviews']);
 
 //single review page-->vc
-Route::get('/reviews/single',[ReviewController::class,'singleReview']);
+Route::get('/reviews/{review:slug}',[ReviewController::class,'singleReview']);
+
+//dasboard for admin and user
+Route::any('/home',[HomeController::class,'redirect']);
+
+//create post for user
+Route::get('/user/create',[ReviewController::class,'ShowCreateReview']);//->middleware('auth');
+Route::post('/home',[ReviewController::class,'CreateReview']);//->middleware('auth');
+
+//edit post for user
+Route::get('/reviews/edit/{review:slug}',[ReviewController::class,'ShowEditReview']);
+Route::put('/reviews/{review}',[ReviewController::class,'EditReview']);
+
+//delete post for user
+Route::get('/reviews/delete/{review}',[ReviewController::class,'ShowDeleteReview']);
+Route::delete('/reviews/{review}',[ReviewController::class,'DeleteReview']);
+
+
+//to comment
+Route::post('/reviews/{$review}',[CommentController::class,'CreateComment']);//->middleware('auth');
+
+//after jetstream
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

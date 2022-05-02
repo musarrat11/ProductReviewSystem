@@ -24,7 +24,11 @@ use Illuminate\Support\Facades\Route;
 
 
 //welcome page-->vc
-Route::any('/',[WelcomeController::class,'index']);
+Route::any('/',[WelcomeController::class,'index'])->withoutMiddleware(['/home']);
+
+//to comment
+Route::post('/reviews/{$review}',[CommentController::class,'CreateComment']);
+
 
 //Allreviews---->vc
 Route::get('/reviews',[ReviewController::class,'AllReviews']);
@@ -48,8 +52,6 @@ Route::get('/reviews/delete/{review}',[ReviewController::class,'ShowDeleteReview
 Route::delete('/reviews/{review}',[ReviewController::class,'DeleteReview']);
 
 
-//to comment
-Route::post('/reviews/{$review}',[CommentController::class,'CreateComment']);//->middleware('auth');
 
 //after jetstream
 Route::middleware([

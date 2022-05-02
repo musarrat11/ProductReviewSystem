@@ -2,9 +2,9 @@
 
 @section('searchbox')
 <!-- Search form -->
-<form method="GET">
+<form method="">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <input type="text" class="form-control" placeholder="search" name="search">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
     </div>
 </form>

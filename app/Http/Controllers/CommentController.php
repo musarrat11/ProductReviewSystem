@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    // public function CreateComment()
-    // {
-    //     $reviews=Comment::all();
-    //     return view('reviews',compact('reviews'));
-    // }
-    public function CreateComment(Request $request, $review_id)
+    public function redirect()
+    {
+      return redirect()->back();
+    }
+    
+    public function CreateComment (Request $request, $review_id)
     {
       //get data
       $user_id = Auth::user()->id;

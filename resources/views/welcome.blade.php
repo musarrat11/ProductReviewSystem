@@ -1,21 +1,15 @@
 @extends('layout')
 
-@section('searchbox')
+
 <!-- Search form -->
-<form method="GET">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="search" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
-    </div>
-</form>
+
 <!-- search End -->
-@endsection
 
 @section('main')
 <!-- Blog List Start -->
 <div class="container bg-white pt-5">
-@foreach ($reviews as $review)
-<div class="row blog-item px-3 pb-5">
+  @foreach ($reviews as $review)
+   <div class="row blog-item px-3 pb-5">
         <div class="col-md-5">
             <img class="img-fluid mb-4 mb-md-0" src="{{$review->imagepath}}" alt="Image">
         </div>

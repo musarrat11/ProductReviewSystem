@@ -10,19 +10,29 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function redirect(){
+    public function redirect(Request $request){
         if(Auth::id()){
             if(Auth::user()->usertype==0){
                 $userid=Auth::user()->id;
-                //dd($userid);
-                 $reviews=Review::where('user_id',$userid)->get();
-                 //$reviews= DB::table('reviews')->where('user_id', $userid)->get();
-                 //dd($reviews);
+                  if($request->search){
+                    $reviews = Review::where([['title', 'like', '%' . $request->search . '%'], ['user_id',$userid]])
+                    ->orWhere([['body', 'like', '%' . $request->search . '%'], ['user_id',$userid]])
+                    ->get();
+                }
+                else{
+                    $reviews=Review::where('user_id',$userid)->get();
+                }
                  return view('user.home',compact('reviews'));
-                //return view('user.home');
             }
             else{
-                return view('admin.home');
+                if($request->search){
+                    $reviews = Review::where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('body', 'like', '%' . $request->search . '%')->get();
+                }
+            else{
+                $reviews=Review::all();
+            }
+                return view('admin.home',compact('reviews'));
             }
         }
         else{

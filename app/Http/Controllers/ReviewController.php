@@ -17,11 +17,18 @@ class ReviewController extends Controller
        $this->middleware('auth')->except(['AllReviews', 'singleReview']);
     }
     //show all reviews
-    public function AllReviews()
+    public function AllReviews(Request $request)
     {
+        //search
+        if($request->search){
+            $reviews = Review::where('title', 'like', '%' . $request->search . '%')
+            ->orWhere('body', 'like', '%' . $request->search . '%')->get();
+        }
+    else{
         $reviews=Review::all();
-        return view('reviews',compact('reviews'));
     }
+    return view('reviews',compact('reviews'));
+}
     //show review details
     public function singleReview($id)
     {
@@ -29,10 +36,6 @@ class ReviewController extends Controller
         $comment = DB::table('comments')
                  ->where('review_id', '=', $id)
                  ->get();
-        // $user=DB::table('users')
-        // ->where('id', '=', $comment->user_id)
-        // ->get();
-                // dd($comment);
         return view('single',compact('review','comment'));
     }
 
@@ -61,11 +64,11 @@ class ReviewController extends Controller
       $data->save();
       return redirect('/home');
     }
+
     //editreview view
     public function ShowEditReview($id)
     {
         $review = Review::find($id);
-        //dd($review);
         return view('user.edit-post',compact('review'));
     }
     //editreview db
@@ -83,13 +86,6 @@ class ReviewController extends Controller
         else{
             $imagePath = 'storage/' . $request->file('image')->store('ProductImages', 'public');
         }
-        // DB::table('reviews')
-        // ->where('id', $postid)
-        // ->updateOrInsert(
-        //     ['title' => $title, 
-        //     'body' => $body,
-        //     'slug' => $slug]
-        // );
         
       //store data
       $review->title=$title;

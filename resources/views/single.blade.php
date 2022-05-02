@@ -17,31 +17,37 @@
 
         <div class="col-12 py-4">
             <h3 class="mb-4 font-weight-bold">Comments</h3>
-            @foreach($comment as $comment)
+            
             <div class="media mb-4">
                 <div class="media-body">
-                    <h3>{{$comment->user_id}}<small><i>{}</i></small></h3>
-                    <p>{{$comment->comment}}</p>
+                    <h3>Ryan Malik<small></small></h3>
+                    <p>good product</p>
                 </div>
             </div>
-            @endforeach
+            <div class="media mb-4">
+                <div class="media-body">
+                    <h3>Soniya Shikder<small></small></h3>
+                    <p>Didn't like that</p>
+                </div>
+            </div>
+            <!--  -->
         </div>
-    @auth
+        @auth
         <div class="col-12">
             <h3 class="mb-4 font-weight-bold">Leave a comment</h3>
-            <form method="POST" action="{{url('/reviews',$review)}}">
+            <form method="get" action="{{url('/reviews',$review)}}">
                 @method('post')
                 @csrf
                 <div class="form-group">
-                    <label for="message">Comment</label>
-                    <textarea id="message" name="comment" class="form-control"></textarea>
+                    <label for="formGroupExampleInput">comment</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" name="comment" placeholder="">
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Leave Comment" class="btn btn-primary">
                 </div>
             </form>
         </div>
-    @endauth
+        @endauth
     </div>
     <!-- Blog Detail End -->
 
